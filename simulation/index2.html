@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bubble Sort Animation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .bar-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 300px;
+            margin-top: 20px;
+        }
+        .bar {
+            width: 40px;
+            margin: 5px;
+            text-align: center;
+            background-color: lightblue;
+            position: relative;
+            transition: transform 0.5s ease-in-out;
+        }
+        .bar span {
+            position: absolute;
+            bottom: -25px;
+            width: 100%;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Bubble Sort Visualization</h2>
+    <input type="text" id="arrayInput" placeholder="Enter numbers (e.g. 5,3,8,1)">
+    <button onclick="startSorting()">Start Sorting</button>
+    <button onclick="resetBars()">Reset</button>
+    
+    <div class="bar-container" id="barContainer"></div>
+
+    <script>
+        let array = [];
+
+        function createBars() {
+            const container = document.getElementById("barContainer");
+            container.innerHTML = "";
+            array.forEach(value => {
+                let bar = document.createElement("div");
+                bar.className = "bar";
+                bar.style.height = value * 5 + "px"; // Scale height
+                bar.innerHTML = `<span>${value}</span>`;
+                container.appendChild(bar);
+            });
+        }
+
+        function startSorting() {
+            const input = document.getElementById("arrayInput").value;
+            if (!input) return;
+            array = input.split(",").map(Number);
+            createBars();
+            bubbleSortAnimation(array);
+        }
+
+        function resetBars() {
+            document.getElementById("barContainer").innerHTML = "";
+            document.getElementById("arrayInput").value = "";
+            array = [];
+        }
+
+        async function bubbleSortAnimation(arr) {
+            let bars = document.getElementsByClassName("bar");
+            for (let i = 0; i < arr.length - 1; i++) {
+                for (let j = 0; j < arr.length - i - 1; j++) {
+                    bars[j].style.backgroundColor = "red";
+                    bars[j + 1].style.backgroundColor = "red";
+
+                    await new Promise(resolve => setTimeout(resolve, 500));
+
+                    if (arr[j] > arr[j + 1]) {
+                        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+                        swapBars(bars[j], bars[j + 1]);
+                    }
+
+                    bars[j].style.backgroundColor = "lightblue";
+                    bars[j + 1].style.backgroundColor = "lightblue";
+                }
+                bars[arr.length - i - 1].style.backgroundColor = "green"; // Sorted
+            }
+            bars[0].style.backgroundColor = "green"; // Final element sorted
+        }
+
+        function swapBars(bar1, bar2) {
+            let tempHeight = bar1.style.height;
+            let tempValue = bar1.innerHTML;
+
+            bar1.style.height = bar2.style.height;
+            bar1.innerHTML = bar2.innerHTML;
+
+            bar2.style.height = tempHeight;
+            bar2.innerHTML = tempValue;
+        }
+    </script>
+
+</body>
+</html>

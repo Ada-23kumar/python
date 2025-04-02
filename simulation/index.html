@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Output Simulation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        #output {
+            width: 80%;
+            height: 200px;
+            background-color: black;
+            color: lime;
+            padding: 10px;
+            overflow-y: auto;
+            border-radius: 5px;
+            margin: 10px auto;
+            text-align: left;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h2>Code Output Simulation</h2>
+    <button onclick="simulateOutput()">Run Code</button>
+    <div id="output"></div>
+
+    <script>
+        function simulateOutput() {
+            const outputBox = document.getElementById("output");
+            outputBox.innerHTML = ""; // Clear previous output
+
+            const messages = [
+                "Compiling...",
+                "Executing...",
+                "Output: Hello, World!",
+                "Process finished successfully!"
+            ];
+
+            let index = 0;
+            function printMessage() {
+                if (index < messages.length) {
+                    outputBox.innerHTML += messages[index] + "<br>";
+                    index++;
+                    setTimeout(printMessage, 1000); // Simulate delay
+                }
+            }
+
+            printMessage();
+        }
+    </script>
+</body>
+</html>
